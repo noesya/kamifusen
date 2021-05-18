@@ -22,7 +22,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+When you want to use an image in a website, the basic code is:
+
+```html
+    <img src="path/image.jpg" alt="A nice image">
+```
+
+If the image is a 5 mo jpg file, 3500 px width by 5000 px height, then your page is very heavy, which is bad for the user and bad for the environment.
+
+There are many things to do to improve the weight and the experience:
+- resize the image server side
+- remove any metadata (EXIF...) that have a size and no use in a web context
+- provide more efficient formats (webp, AVIF)
+- load and decode asynchronously  
+
+
 
 ## References
 

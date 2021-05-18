@@ -24,6 +24,11 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## References
+
+- https://www.industrialempathy.com/posts/image-optimizations/
+- https://github.com/google/eleventy-high-performance-blog/blob/60902bfdaf764f5b16b2af62cf10f63e0e74efbc/README.md#images
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

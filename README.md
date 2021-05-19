@@ -2,9 +2,13 @@
 
 ![Kamifūsen in Yamagata](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg/1024px-%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg)
 
-When you want to use an image in a website, the basic code is:
+## What's the problem?
+
+### The initial sitation
+
+When you use an image in a website, the basic code is:
 ```html
-<img src="path/image.jpg" alt="A nice image">
+<img src="image.jpg" alt="A nice image">
 ```
 
 which in rails can be generated with (assuming the image is an active storage blob):
@@ -12,18 +16,71 @@ which in rails can be generated with (assuming the image is an active storage bl
 <%= image_tag object.image, alt: 'A nice image' %>
 ```
 
-If the image is a 5 mo jpg file, 3500 px width by 5000 px height, then your page is very heavy, which is bad for the user and bad for the environment.
+If the image is a 5 mo jpg file, 3500px width by 5000px height, then your page is very heavy, which is bad for the user and bad for the environment.
 
-There are many things to do to improve the weight and the experience:
-- resize the image server side
-- remove any metadata (EXIF...) that have a size and no use in a web context
-- provide more efficient formats (webp, AVIF)
-- load and decode asynchronously  
+There are many things to do to improve the weight and the experience, as we'll now see.
 
+### Resize the image server side
+
+If the screen you use is a mobile with a 375px wide screen, retina, then the image should be resized server side to a maximum of 750px. Ideally, if the image in the page is shown at 200px wide, then it should be resized to a 400px width. The technology used to manage that is the srcset.
+
+The sizes are managed like:
+
+```html
+<img srcset="image-320w.jpg 320w,
+             image-480w.jpg 480w,
+             image-800w.jpg 800w"
+     sizes="(max-width: 320px) 280px,
+            (max-width: 480px) 440px,
+            800px"
+     src="image-800w.jpg" alt="A nice image">
+```
+
+And the retina like:
+
+```html
+<img srcset="image-320w.jpg,
+             image-480w.jpg 1.5x,
+             image-640w.jpg 2x"
+     src="image-640w.jpg" alt="A nice image">
+ ```
+
+### Remove any metadata (EXIF...)
+
+Images can contain interesting metadata, which are heavy and useless in a standard web context. The technology used is imagemagick, through active storage.
+
+### Provide more efficient formats (webp, AVIF)
+
+Webp and AVIF are more efficient formats than jpg and png. They allow better compression with lower quality, but are not compatible with all browsers. The technology used is picture, allowing multiple sources to be defined and letting the browser choose the one it can handle.
+
+```html
+<picture>
+  <source type="image/avif" srcset="image.avif">
+  <source type="image/webp" srcset="image.webp">
+  <img src="image.jpg" alt="A nice image">
+</picture>
+```
+
+### Load and decode asynchronously  
+
+### The final situation
 
 The new helper is:
 ```erb
 <%= kamifusen_tag object.image, alt: 'A nice image' %>
+```
+
+It generates a code like:
+```html
+<picture>
+  <source srcset="image-800w.avif, image-1600w.avif 2x" type="image/avif"  media="(min-width: 800px)">
+  <source srcset="image-400w.avif, image-800w.avif 2x"  type="image/avif"  media="(min-width: 400px)">
+  <source srcset="image-800w.webp, image-1600w.webp 2x" type="image/webp"  media="(min-width: 800px)">
+  <source srcset="image-400w.webp, image-800w.webp 2x"  type="image/webp"  media="(min-width: 400px)">
+  <source srcset="image-800w.jpg, image-1600w.jpg 2x"   type="image/jpg"   media="(min-width: 800px)">
+  <source srcset="image-400w.jpg, image-800w.jpg 2x"    type="image/jpg"   media="(min-width: 400px)">
+  <img src="image-800.jpg" alt="A nice image" srcset="image-800.jpg, image-1600.jpg 2x">
+</picture>
 ```
 
 ## Installation
@@ -44,10 +101,12 @@ Or install it yourself as:
 
 ## Usage
 
-Simply use `kamifusen_tag` instead of `image_tag`
+Simply use `kamifusen_tag` instead of `image_tag` in your rails views.
 
 ## References
 
+- https://developer.mozilla.org/fr/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
+- https://cloudfour.com/thinks/responsive-images-101-definitions/
 - https://www.industrialempathy.com/posts/image-optimizations/
 - https://github.com/google/eleventy-high-performance-blog/blob/60902bfdaf764f5b16b2af62cf10f63e0e74efbc/README.md#images
 - http://rbuchberger.github.io/jekyll_picture_tag/

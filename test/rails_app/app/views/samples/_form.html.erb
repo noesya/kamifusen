@@ -1,0 +1,19 @@
+<%= form_with(model: sample) do |form| %>
+  <% if sample.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sample.errors.count, "error") %> prohibited this sample from being saved:</h2>
+
+      <ul>
+        <% sample.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.file_field :image %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

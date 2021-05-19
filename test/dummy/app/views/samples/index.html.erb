@@ -1,6 +1,7 @@
 <% @samples.each do |sample| %>
   <div>
     <%= image_tag sample.image if sample.image.attached? %><br>
+    <%= kamifusen_tag sample.image if sample.image.attached? %><br>
     <%= link_to 'Show', sample %>
     <%= link_to 'Edit', edit_sample_path(sample) %>
     <%= link_to 'Destroy', sample, method: :delete, data: { confirm: 'Are you sure?' } %>

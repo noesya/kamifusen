@@ -1,3 +1,4 @@
 <%= image_tag @sample.image if @sample.image.attached? %><br>
+<%= kamifusen_tag @sample.image if @sample.image.attached? %><br>
 
 <%= link_to 'Edit', edit_sample_path(@sample) %>

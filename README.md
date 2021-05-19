@@ -23,9 +23,13 @@ Or install it yourself as:
 ## Usage
 
 When you want to use an image in a website, the basic code is:
-
 ```html
-    <img src="path/image.jpg" alt="A nice image">
+<img src="path/image.jpg" alt="A nice image">
+```
+
+which in rails can be generated with (assuming the image is an active storage blob):
+```erb
+<%= image_tag object.image, alt: 'A nice image' %>
 ```
 
 If the image is a 5 mo jpg file, 3500 px width by 5000 px height, then your page is very heavy, which is bad for the user and bad for the environment.
@@ -35,6 +39,12 @@ There are many things to do to improve the weight and the experience:
 - remove any metadata (EXIF...) that have a size and no use in a web context
 - provide more efficient formats (webp, AVIF)
 - load and decode asynchronously  
+
+
+The new helper is:
+```erb
+<%= kamifusen_tag object.image, alt: 'A nice image' %>
+```
 
 
 

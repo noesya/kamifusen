@@ -1,0 +1,7 @@
+<h2>After</h2>
+<%= link_to 'Before', before_path %>
+<% @samples.each do |sample| %>
+  <div>
+    <%= kamifusen_tag sample.image if sample.image.attached? %>
+  </div>
+<% end %>

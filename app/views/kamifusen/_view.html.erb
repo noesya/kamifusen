@@ -1,1 +1,12 @@
-hello
+<%
+formats = [:webp, :jpg]
+sizes = [800, 400]
+quality = 80
+%>
+<picture>
+  <source srcset="<%= url_for source.variant(resize: 800, format: :webp, quality: quality) %>, <%= url_for source.variant(resize: 1600, format: :webp, quality: quality) %> 2x" type="image/webp" media="(min-width: 800px)">
+  <source srcset="<%= url_for source.variant(resize: 400, format: :webp, quality: quality) %>, <%= url_for source.variant(resize: 800, format: :webp, quality: quality) %> 2x" type="image/webp" media="(min-width: 400px)">
+  <source srcset="<%= url_for source.variant(resize: 800, format: :jpg, quality: quality) %>, <%= url_for source.variant(resize: 1600, format: :jpg, quality: quality) %> 2x" type="image/jpg" media="(min-width: 800px)">
+  <source srcset="<%= url_for source.variant(resize: 400, format: :jpg, quality: quality) %>, <%= url_for source.variant(resize: 800, format: :jpg, quality: quality) %> 2x" type="image/jpg" media="(min-width: 400px)">
+  <img src="<%= url_for source.variant(resize: 800, format: :jpg, quality: quality) %>" alt="A nice image"">
+</picture>

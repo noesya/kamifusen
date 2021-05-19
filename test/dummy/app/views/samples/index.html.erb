@@ -1,11 +1,23 @@
-<% @samples.each do |sample| %>
-  <div>
-    <%= image_tag sample.image if sample.image.attached? %><br>
-    <%= kamifusen_tag sample.image if sample.image.attached? %><br>
-    <%= link_to 'Show', sample %>
-    <%= link_to 'Edit', edit_sample_path(sample) %>
-    <%= link_to 'Destroy', sample, method: :delete, data: { confirm: 'Are you sure?' } %>
-  </div>
-<% end %>
+<%= link_to 'Before', before_path %> | <%= link_to 'After', after_path %>
+<table>
+  <thead>
+    <tr>
+      <td>Image</td>
+      <td>Actions</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @samples.each do |sample| %>
+      <tr>
+        <td><%= image_tag sample.image, width: 200 if sample.image.attached? %></td>
+        <td>
+          <%= link_to 'Show', sample %>
+          <%= link_to 'Edit', edit_sample_path(sample) %>
+          <%= link_to 'Destroy', sample, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'New Sample', new_sample_path %>

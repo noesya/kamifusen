@@ -6,6 +6,14 @@ class SamplesController < ApplicationController
     @samples = Sample.all
   end
 
+  def before
+    @samples = Sample.all
+  end
+
+  def after
+    @samples = Sample.all
+  end
+
   # GET /samples/1
   def show
   end

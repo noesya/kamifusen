@@ -5,5 +5,8 @@ require "kamifusen/railtie"
 require "kamifusen/view_helper"
 
 module Kamifusen
-  class Error < StandardError; end
+  class Engine < ::Rails::Engine
+  end
+  class Error < StandardError
+  end
 end

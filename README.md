@@ -2,26 +2,6 @@
 
 ![Kamifūsen in Yamagata](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg/1024px-%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kamifusen`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'kamifusen'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install kamifusen
-
-## Usage
-
 When you want to use an image in a website, the basic code is:
 ```html
 <img src="path/image.jpg" alt="A nice image">
@@ -46,12 +26,31 @@ The new helper is:
 <%= kamifusen_tag object.image, alt: 'A nice image' %>
 ```
 
+## Installation
 
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'kamifusen'
+```
+
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install kamifusen
+
+## Usage
+
+Simply use `kamifusen_tag` instead of `image_tag`
 
 ## References
 
 - https://www.industrialempathy.com/posts/image-optimizations/
 - https://github.com/google/eleventy-high-performance-blog/blob/60902bfdaf764f5b16b2af62cf10f63e0e74efbc/README.md#images
+- http://rbuchberger.github.io/jekyll_picture_tag/
 
 ## Development
 

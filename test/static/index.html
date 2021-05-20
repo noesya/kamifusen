@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container py-4">
+      <h1>Test responsive images</h1>
+    </div>
+    <hr>
+    <div class="container-fluid">
+      <h2>Full width image</h2>
+    </div>
+    <div class="mb-4">
+      <picture>
+        <source media="(max-width: 320px)" srcset="https://picsum.photos/320/180.webp" type="image/webp">
+        <source media="(max-width: 375px)" srcset="https://picsum.photos/375/210.webp" type="image/webp">
+        <source media="(max-width: 414px)" srcset="https://picsum.photos/414/232.webp" type="image/webp">
+        <source media="(max-width: 768px)" srcset="https://picsum.photos/768/432.webp" type="image/webp">
+        <source media="(max-width: 1024px)" srcset="https://picsum.photos/1024/576.webp" type="image/webp">
+        <source media="(max-width: 320px)" srcset="https://picsum.photos/320/180.jpg">
+        <source media="(max-width: 375px)" srcset="https://picsum.photos/375/210.jpg">
+        <source media="(max-width: 414px)" srcset="https://picsum.photos/414/232.jpg">
+        <source media="(max-width: 768px)" srcset="https://picsum.photos/768/432.jpg">
+        <source media="(max-width: 1024px)" srcset="https://picsum.photos/1024/576.jpg">
+        <source srcset="https://picsum.photos/1920/1080.webp" type="image/webp">
+        <img src="https://picsum.photos/1920/1080.jpg" alt="" class="img-fluid">
+      </picture>
+    </div>
+    <hr>
+    <div class="container">
+      <h2>Images in col Bootstrap</h2>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+          <picture>
+            <source media="(max-width: 320px)" srcset="https://picsum.photos/320/180.webp" type="image/webp">
+            <source media="(max-width: 375px)" srcset="https://picsum.photos/375/210.webp" type="image/webp">
+            <source media="(max-width: 414px)" srcset="https://picsum.photos/414/232.webp" type="image/webp">
+            <source media="(max-width: 768px)" srcset="https://picsum.photos/768/432.webp" type="image/webp">
+            <source media="(max-width: 1024px)" srcset="https://picsum.photos/1024/576.webp" type="image/webp">
+            <source media="(max-width: 320px)" srcset="https://picsum.photos/320/180.jpg">
+            <source media="(max-width: 375px)" srcset="https://picsum.photos/375/210.jpg">
+            <source media="(max-width: 414px)" srcset="https://picsum.photos/414/232.jpg">
+            <source media="(max-width: 768px)" srcset="https://picsum.photos/768/432.jpg">
+            <source media="(max-width: 1024px)" srcset="https://picsum.photos/1024/576.jpg">
+            <source srcset="https://picsum.photos/1920/1080.webp" type="image/webp">
+            <img src="https://picsum.photos/1920/1080.jpg" alt="" class="img-fluid">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

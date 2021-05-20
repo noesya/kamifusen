@@ -20,7 +20,7 @@ If the image is a 5 mo jpg file, 3500px width by 5000px height, then your page i
 
 There are many things to do to improve the weight and the experience, as we'll now see.
 
-### Resize the image server side
+### 1. Resize the image server side
 
 If the screen you use is a mobile with a 375px wide screen, retina, then the image should be resized server side to a maximum of 750px. Ideally, if the image in the page is shown at 200px wide, then it should be resized to a 400px width. The technology used to manage that is the srcset.
 
@@ -45,11 +45,11 @@ And the retina like:
      src="image-640w.jpg" alt="A nice image">
  ```
 
-### Remove any metadata (EXIF...)
+### 2. Remove any metadata (EXIF...)
 
 Images can contain interesting metadata, which are heavy and useless in a standard web context. The technology used is imagemagick, through active storage.
 
-### Provide more efficient formats (webp, AVIF)
+### 3. Provide more efficient formats (webp, AVIF)
 
 Webp and AVIF are more efficient formats than jpg and png. They allow better compression with lower quality, but are not compatible with all browsers. The technology used is picture, allowing multiple sources to be defined and letting the browser choose the one it can handle.
 
@@ -61,7 +61,7 @@ Webp and AVIF are more efficient formats than jpg and png. They allow better com
 </picture>
 ```
 
-### Load and decode asynchronously  
+### 4. Load and decode asynchronously  
 
 ### The final situation
 

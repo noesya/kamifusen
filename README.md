@@ -47,7 +47,7 @@ And the retina like:
      src="image-640w.jpg" alt="A nice image">
  ```
 
-#### 2. Remove any metadata (EXIF...)
+#### 2. Remove any metadata (EXIF...) and optimize compression (tinyfy)
 
 Images can contain interesting metadata, which are heavy and useless in a standard web context. The technology used is imagemagick, through active storage.
 

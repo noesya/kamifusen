@@ -113,6 +113,7 @@ Simply use `kamifusen_tag` instead of `image_tag` in your rails views.
 - https://github.com/google/eleventy-high-performance-blog/blob/60902bfdaf764f5b16b2af62cf10f63e0e74efbc/README.md#images
 - http://rbuchberger.github.io/jekyll_picture_tag/
 - https://vitobotta.com/2020/09/24/resize-and-optimise-images-on-upload-with-activestorage/
+- https://www.filamentgroup.com/lab/load-css-simpler/
 
 ## Development
 

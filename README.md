@@ -67,6 +67,10 @@ Webp and AVIF are more efficient formats than jpg and png. They allow better com
 
 #### 4. Load and decode asynchronously  
 
+```
+<img decoding="async" … />
+```
+
 ### The final situation
 
 https://sebousan.github.io/kamifusen/
@@ -119,6 +123,7 @@ Or install it yourself as:
 - https://www.smashingmagazine.com/2014/05/responsive-images-done-right-guide-picture-srcset/
 - https://web.dev/use-srcset-to-automatically-choose-the-right-image/
 - https://web.dev/use-imagemin-to-compress-images/
+- https://code.luasoftware.com/tutorials/bootstrap/responsive-image-with-srcset-using-bootstrap-breakpoints/
 
 ## Development
 

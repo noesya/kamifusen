@@ -1,12 +1,18 @@
 <%
-formats = [:webp, :jpg]
-sizes = [800, 400]
+# image_tag options
+alt = options[:alt]
+width = options[:width]
+height = options[:height]
+# kamifusen settings
+sizes = [320, 576, 640, 768, 992, 1152, 1200, 1400, 1536, 1984, 2400]
 quality = 80
+# Computing
+sizes.reject! { |size| size > width * 2 } if width
+webps = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :webp, quality: quality) } #{ size } vw" }.join(', ')
+jpgs = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :jpg, quality: quality) } #{ size } vw" }.join(', ')
+default = url_for source.variant(resize: "#{sizes.max}>", format: :jpg, quality: quality)
 %>
 <picture>
-  <source srcset="<%= url_for source.variant(resize: 800, format: :webp, quality: quality) %>, <%= url_for source.variant(resize: 1600, format: :webp, quality: quality) %> 2x" type="image/webp" media="(min-width: 800px)">
-  <source srcset="<%= url_for source.variant(resize: 400, format: :webp, quality: quality) %>, <%= url_for source.variant(resize: 800, format: :webp, quality: quality) %> 2x" type="image/webp" media="(min-width: 400px)">
-  <source srcset="<%= url_for source.variant(resize: 800, format: :jpg, quality: quality) %>, <%= url_for source.variant(resize: 1600, format: :jpg, quality: quality) %> 2x" type="image/jpg" media="(min-width: 800px)">
-  <source srcset="<%= url_for source.variant(resize: 400, format: :jpg, quality: quality) %>, <%= url_for source.variant(resize: 800, format: :jpg, quality: quality) %> 2x" type="image/jpg" media="(min-width: 400px)">
-  <img src="<%= url_for source.variant(resize: 800, format: :jpg, quality: quality) %>" alt="A nice image"">
+  <source srcset="<%= webps %>">
+  <img src="<%= default %>" srcset="<%= jpgs %>" alt="<%= alt %>" loading="lazy" decoding="async"<%= raw " width=\"#{ width }\"" if width %><%= raw " height=\"#{ height}\"" if height %>>
 </picture>

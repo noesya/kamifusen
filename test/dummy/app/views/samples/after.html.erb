@@ -2,6 +2,7 @@
 <%= link_to 'Before', before_path %>
 <% @samples.each do |sample| %>
   <div>
-    <%= kamifusen_tag sample.image if sample.image.attached? %>
+    <%= kamifusen_tag sample.image, alt: sample.image.filename, width: 500 if sample.image.attached? %>
+    <%= kamifusen_tag sample.image, alt: sample.image.filename if sample.image.attached? %>
   </div>
 <% end %>

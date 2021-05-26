@@ -115,6 +115,7 @@ Or install it yourself as:
 - https://vitobotta.com/2020/09/24/resize-and-optimise-images-on-upload-with-activestorage/
 - https://www.filamentgroup.com/lab/load-css-simpler/
 - https://mattwilcox.net/web-development/keeping-srcset-and-sizes-under-control
+- https://developers.google.com/web/fundamentals/design-and-ux/responsive/images?hl=fr
 
 ## Development
 

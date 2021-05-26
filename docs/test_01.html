@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="Image optimization">
+    <title>Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <h2>Simple 100%</h2>
+
+    - Retina : gérer par Chrome / FF / SF
+    - Safari : srcset dans source pas supporté
+
+    <picture>
+      <source
+        sizes="
+            (min-width:1400px) 1400px,
+            (min-width:1200px) 1200px,
+            (min-width:992px) 992px,
+            (min-width:768px) 768px,
+            (min-width:576px) 576px,
+            320px"
+
+        srcset="https://picsum.photos/320.webp 320w,
+                https://picsum.photos/576.webp 576w,
+                https://picsum.photos/768.webp 768w,
+                https://picsum.photos/992.webp 992w,
+                https://picsum.photos/1200.webp 1200w,
+                https://picsum.photos/1400.webp 1400w,
+                https://picsum.photos/640.webp 640w,
+                https://picsum.photos/1152.webp 1152w,
+                https://picsum.photos/1536.webp 1536w,
+                https://picsum.photos/1984.webp 1984w,
+                https://picsum.photos/2400.webp 2400w,
+                https://picsum.photos/2800.webp 2800w,
+                "
+                type="image/webp"
+        >
+      <source
+        sizes="
+            (min-width:1400px) 1400px,
+            (min-width:1200px) 1200px,
+            (min-width:992px) 992px,
+            (min-width:768px) 768px,
+            (min-width:576px) 576px,
+            320px"
+        srcset="https://picsum.photos/320.jpg 320w,
+                https://picsum.photos/576.jpg 576w,
+                https://picsum.photos/768.jpg 768w,
+                https://picsum.photos/992.jpg 992w,
+                https://picsum.photos/1200.jpg 1200w,
+                https://picsum.photos/1400.jpg 1400w
+                "
+                type="image/jpg"
+        >
+        <img 
+        src="https://picsum.photos/320.jpg" 
+        sizes="
+            (min-width:1400px) 1400px,
+            (min-width:1200px) 1200px,
+            (min-width:992px) 992px,
+            (min-width:768px) 768px,
+            (min-width:576px) 576px,
+            320px"
+        srcset="https://picsum.photos/320.jpg 320w,
+                https://picsum.photos/576.jpg 576w,
+                https://picsum.photos/768.jpg 768w,
+                https://picsum.photos/992.jpg 992w,
+                https://picsum.photos/1200.jpg 1200w,
+                https://picsum.photos/1400.jpg 1400w
+                "
+        class="img-fluid">
+    </picture>
+
+    <h2>col-12 col-md-6 col-lg-4</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4" style="background-color: pink;">
+                <picture>
+                    <source sizes="
+                        (min-width:992px) 33vw,
+                        (min-width:768px) 50vw,
+                        100vw"
+                  srcset="https://picsum.photos/320.webp 320w,
+                      https://picsum.photos/576.webp 576w,
+                      https://picsum.photos/768.webp 768w,
+                      https://picsum.photos/992.webp 992w,
+                      https://picsum.photos/1200.webp 1200w,
+                      https://picsum.photos/1400.webp 1400w,
+
+                      https://picsum.photos/640.webp 640w,
+                      https://picsum.photos/1152.webp 1152w,
+                      https://picsum.photos/1536.webp 1536w,
+                      https://picsum.photos/1984.webp 1984w,
+                      https://picsum.photos/2400.webp 2400w,
+                      https://picsum.photos/2800.webp 2800w
+                      "
+                      type="image/webp">
+                    <source sizes="
+                        (min-width:768px) 50vw,
+                        100vw" srcset="https://picsum.photos/320.jpg 320w,
+                      https://picsum.photos/576.jpg 576w,
+                      https://picsum.photos/768.jpg 768w,
+                      https://picsum.photos/992.jpg 992w,
+                      https://picsum.photos/1200.jpg 1200w,
+                      https://picsum.photos/1400.jpg 1400w
+                      " type="image/jpg">
+                    <img src="https://picsum.photos/320.jpg" sizes="
+                  (min-width:768px) 50vw,
+                  100vw" srcset="https://picsum.photos/320.jpg 320w,
+                      https://picsum.photos/576.jpg 576w,
+                      https://picsum.photos/768.jpg 768w,
+                      https://picsum.photos/992.jpg 992w,
+                      https://picsum.photos/1200.jpg 1200w,
+                      https://picsum.photos/1400.jpg 1400w
+                      " class="img-fluid">
+                </picture>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

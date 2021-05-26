@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Kamifusen
-  VERSION = "0.9"
+  VERSION = "0.9.1"
 end

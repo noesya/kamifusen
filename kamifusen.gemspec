@@ -3,7 +3,7 @@
 require_relative "lib/kamifusen/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "Kamifusen"
+  spec.name          = "kamifusen"
   spec.version       = Kamifusen::VERSION
   spec.authors       = ["Sébastien Moulène", "Arnaud Levy"]
   spec.email         = ["sebousan@gmail.com", "contact@arnaudlevy.com"]

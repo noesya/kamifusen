@@ -116,6 +116,9 @@ Or install it yourself as:
 - https://www.filamentgroup.com/lab/load-css-simpler/
 - https://mattwilcox.net/web-development/keeping-srcset-and-sizes-under-control
 - https://developers.google.com/web/fundamentals/design-and-ux/responsive/images?hl=fr
+- https://www.smashingmagazine.com/2014/05/responsive-images-done-right-guide-picture-srcset/
+- https://web.dev/use-srcset-to-automatically-choose-the-right-image/
+- https://web.dev/use-imagemin-to-compress-images/
 
 ## Development
 

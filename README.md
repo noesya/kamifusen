@@ -2,9 +2,11 @@
 
 ![Kamifūsen in Yamagata](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg/1024px-%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg)
 
-## What's the problem?
+## Usage
 
-### The initial sitation
+Simply use `kamifusen_tag` instead of `image_tag` in your rails views.## What's the problem?
+
+### The initial situation
 
 When you use an image in a website, the basic code is:
 ```html
@@ -67,6 +69,8 @@ Webp and AVIF are more efficient formats than jpg and png. They allow better com
 
 ### The final situation
 
+https://sebousan.github.io/kamifusen/
+
 The new helper is:
 ```erb
 <%= kamifusen_tag object.image, alt: 'A nice image' %>
@@ -101,10 +105,6 @@ Or install it yourself as:
 
     $ gem install kamifusen
 
-## Usage
-
-Simply use `kamifusen_tag` instead of `image_tag` in your rails views.
-
 ## References
 
 - https://developer.mozilla.org/fr/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
@@ -114,6 +114,7 @@ Simply use `kamifusen_tag` instead of `image_tag` in your rails views.
 - http://rbuchberger.github.io/jekyll_picture_tag/
 - https://vitobotta.com/2020/09/24/resize-and-optimise-images-on-upload-with-activestorage/
 - https://www.filamentgroup.com/lab/load-css-simpler/
+- https://mattwilcox.net/web-development/keeping-srcset-and-sizes-under-control
 
 ## Development
 

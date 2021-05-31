@@ -1,18 +1,33 @@
 <%
 # image_tag options
+options ||= {}
 alt = options[:alt]
 width = options[:width]
 height = options[:height]
-# kamifusen settings
-sizes = [320, 576, 640, 768, 992, 1152, 1200, 1400, 1536, 1984, 2400]
-quality = 80
-# Computing
-sizes.reject! { |size| size > width * 2 } if width
-webps = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :webp, quality: quality) } #{ size } vw" }.join(', ')
-jpgs = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :jpg, quality: quality) } #{ size } vw" }.join(', ')
-default = url_for source.variant(resize: "#{sizes.max}>", format: :jpg, quality: quality)
+klass = options[:class]
+parameters = " loading=\"lazy\" decoding=\"async\""
+parameters += " alt=\"#{ options[:alt] }\"" if alt
+parameters += " width=\"#{ options[:width] }\"" if width
+parameters += " height=\"#{ options[:height]}\"" if height
+parameters += " class=\"#{ options[:class] }\"" if klass
 %>
-<picture>
-  <source srcset="<%= webps %>">
-  <img src="<%= default %>" srcset="<%= jpgs %>" alt="<%= alt %>" loading="lazy" decoding="async"<%= raw " width=\"#{ width }\"" if width %><%= raw " height=\"#{ height}\"" if height %>>
-</picture>
+<% if source.variable? %>
+  <%
+  # kamifusen settings
+  sizes = [320, 576, 640, 768, 992, 1152, 1200, 1400, 1536, 1984, 2400]
+  quality = 80
+  # Computing
+  sizes.reject! { |size| size > width * 2 } if width
+  webps = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :webp, quality: quality) } #{ size } vw" }.join(', ')
+  jpgs = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :jpg, quality: quality) } #{ size } vw" }.join(', ')
+  default = url_for source.variant(resize: "#{sizes.max}>", format: :jpg, quality: quality)
+  %>
+  <picture>
+    <source srcset="<%= webps %>">
+    <img src="<%= default %>" srcset="<%= jpgs %>"<%= raw parameters %>>
+  </picture>
+<% else %>
+  <picture>
+    <img src="<%= url_for source %>"<%= raw parameters %>>
+  </picture>
+<% end %>

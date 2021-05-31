@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kamifusen (0.9.2)
+    kamifusen (0.9.3)
       image_processing
       rails
 

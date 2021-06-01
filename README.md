@@ -2,6 +2,34 @@
 
 ![Kamifūsen in Yamagata](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg/1024px-%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg)
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'kamifusen'
+```
+
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install kamifusen
+
+In the views, use (where object is an active record model, and image is an active storage attachment):
+
+```erb
+<%= kamifusen_tag object.image, alt: 'A nice image' %>
+```
+
+If you want to disable webp, in config/initializers/kamifusen.rb:
+
+```ruby
+Kamifusen.with_webp = false
+```
+
 ## Usage
 
 Simply use `kamifusen_tag` instead of `image_tag` in your rails views.## What's the problem?
@@ -76,11 +104,13 @@ Webp and AVIF are more efficient formats than jpg and png. They allow better com
 https://sebousan.github.io/kamifusen/
 
 The new helper is:
+
 ```erb
 <%= kamifusen_tag object.image, alt: 'A nice image' %>
 ```
 
 It generates a code like:
+
 ```html
 <picture>
   <source srcset="image-800w.avif, image-1600w.avif 2x" type="image/avif"  media="(min-width: 800px)">
@@ -92,22 +122,6 @@ It generates a code like:
   <img src="image-800.jpg" alt="A nice image" srcset="image-800.jpg, image-1600.jpg 2x">
 </picture>
 ```
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'kamifusen'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install kamifusen
 
 ## References
 

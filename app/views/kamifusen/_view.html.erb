@@ -18,12 +18,20 @@ parameters += " class=\"#{ options[:class] }\"" if klass
   quality = 80
   # Computing
   sizes.reject! { |size| size > width * 2 } if width
-  srcset_webp = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", format: :webp, quality: quality) } #{ size }w" }.join(', ')
-  srcset_default = sizes.map { |size| "#{ url_for source.variant(resize: "#{size}>", quality: quality) } #{ size }w" }.join(', ')
+  if Kamifusen.with_webp
+    srcset_webp = sizes.map { |size|
+      "#{ url_for source.variant(resize: "#{size}>", format: :webp, quality: quality) } #{ size }w"
+    }.join(', ')
+  end
+  srcset_default = sizes.map { |size|
+    "#{ url_for source.variant(resize: "#{size}>", quality: quality) } #{ size }w"
+  }.join(', ')
   default = url_for source.variant(resize: "#{sizes.max}>", quality: quality)
   %>
   <picture>
-    <source srcset="<%= srcset_webp %>">
+    <% if Kamifusen.with_webp %>
+      <source srcset="<%= srcset_webp %>">
+    <% end %>
     <img src="<%= default %>" srcset="<%= srcset_default %>"<%= raw parameters %>>
   </picture>
 <% else %>

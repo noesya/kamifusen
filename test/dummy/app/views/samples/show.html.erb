@@ -1,4 +1,10 @@
+<h2>image_tag</h2>
 <%= image_tag @sample.image if @sample.image.attached? %><br>
+
+<h2>kamifusen_tag</h2>
 <%= kamifusen_tag @sample.image if @sample.image.attached? %><br>
+
+<h2>kamifusen_tag with width</h2>
+<%= kamifusen_tag @sample.image, width: 175 if @sample.image.attached? %><br>
 
 <%= link_to 'Edit', edit_sample_path(@sample) %>

@@ -19,15 +19,9 @@ parameters += " class=\"#{ options[:class] }\"" if klass
   # Computing
   if width
     width_retina = width * 2
-    # If we ask for a 175px width, we should have 320 and 576 sizes
-    size_is_too_big = false
-    sizes.reject! do |size|
-      # If the previous size was too big, we should reject this one
-      should_reject_this_size = size_is_too_big
-      # If this size is the first "too big" size, we should take it
-      size_is_too_big = size > width_retina
-      should_reject_this_size
-    end
+    sizes.reject! { |size| size > width_retina }
+    sizes << width_retina
+    sizes.uniq!
   end
   default_width = sizes.max
   default_width = width_retina if width_retina && width_retina > default_width

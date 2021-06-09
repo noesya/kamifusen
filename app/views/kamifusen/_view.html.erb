@@ -37,12 +37,12 @@ parameters += " class=\"#{ options[:class] }\"" if klass
   %>
   <picture>
     <% if Kamifusen.with_webp %>
-      <source srcset="<%= srcset_webp %>">
+      <source srcset="<%= srcset_webp %>" type="image/webp">
     <% end %>
-    <img src="<%= default %>" srcset="<%= srcset_default %>"<%= raw parameters %>>
+    <img src="<%= default %>" srcset="<%= srcset_default %>" type="<%= source.content_type %>"<%= raw parameters %>>
   </picture>
 <% else %>
   <picture>
-    <img src="<%= url_for source %>"<%= raw parameters %>>
+    <img src="<%= url_for source %>" type="<%= source.content_type %>"<%= raw parameters %>>
   </picture>
 <% end %>

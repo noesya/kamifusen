@@ -1,8 +1,17 @@
 <h2>After</h2>
 <%= link_to 'Before', before_path %>
 <% @samples.each do |sample| %>
-  <div>
-    <%= kamifusen_tag sample.image, alt: sample.image.filename, width: 500 if sample.image.attached? %>
-    <%= kamifusen_tag sample.image, alt: sample.image.filename if sample.image.attached? %>
-  </div>
+  <% if sample.image.attached? %>
+    <div>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename,
+                        width: 500 %>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename %>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename,
+                        class: 'class',
+                        picture_class: 'picture_class' %>
+    </div>
+  <% end %>
 <% end %>

@@ -5,6 +5,7 @@ alt = options[:alt]
 width = options[:width]
 height = options[:height]
 klass = options[:class]
+picture_class = options[:picture_class]
 parameters = " loading=\"lazy\" decoding=\"async\""
 parameters += " alt=\"#{ options[:alt] }\"" if alt
 parameters += " width=\"#{ options[:width] }\"" if width
@@ -35,7 +36,7 @@ parameters += " class=\"#{ options[:class] }\"" if klass
   }.join(', ')
   default = url_for source.variant(resize: "#{default_width}>", quality: quality)
   %>
-  <picture>
+  <picture<%= " class=\"#{picture_class}\"" unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>
       <source srcset="<%= srcset_webp %>" type="image/webp">
     <% end %>

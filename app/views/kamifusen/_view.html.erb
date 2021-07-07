@@ -2,17 +2,45 @@
 # image_tag options
 options ||= {}
 alt = options[:alt]
-width = options[:width]
-height = options[:height]
 klass = options[:class]
 picture_class = options[:picture_class]
+width = options[:width]
+height = options[:height]
+if  source&.metadata &&
+    source.metadata['analyzed'] &&
+    source.metadata.has_key?('width') &&
+    source.metadata.has_key?('height')
+  image_width = source.metadata['width']
+  image_height = source.metadata['height']
+  image_ratio = 1.0 * image_width / image_height
+  if width.nil? && height.nil?
+    # Prendre width et height réelles de l'image
+    width = image_width
+    height = image_height
+  elsif width.nil?
+    # Calculer la height sur ratio
+    width = height * image_ratio
+  elsif height.nil?
+    # Calcule la width sur ratio
+    height = width / image_ratio
+  else
+    # Width et height sont explicites,
+    # si le ratio demandé n'est pas celui de l'image,
+    # Redéfinir la height
+    width = [image_width, width].min
+    height = width / image_ratio
+  end
+  width = width.round
+  height = height.round
+end
 parameters = " loading=\"lazy\" decoding=\"async\""
-parameters += " alt=\"#{ options[:alt] }\"" if alt
-parameters += " width=\"#{ options[:width] }\"" if width
-parameters += " height=\"#{ options[:height]}\"" if height
-parameters += " class=\"#{ options[:class] }\"" if klass
+parameters += " alt=\"#{ alt }\"" if alt
+parameters += " width=\"#{ width }\"" if width
+parameters += " height=\"#{ height }\"" if height
+parameters += " class=\"#{ klass }\"" if klass
 %>
 <% if source.variable? %>
+  <%#= "#{image_width} x #{image_height}, #{image_ratio} ratio => #{width} x #{height}<br>".html_safe %>
   <%
   # kamifusen settings
   sizes = [320, 576, 640, 768, 992, 1152, 1200, 1400, 1536, 1984, 2400]

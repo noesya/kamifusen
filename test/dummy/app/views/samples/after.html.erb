@@ -24,6 +24,10 @@
                         alt: sample.image.filename,
                         class: 'class',
                         picture_class: 'picture_class' %>
+      <h3>async false (immediate loading)</h3>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename,
+                        async: false %>
     </article>
   <% end %>
 <% end %>

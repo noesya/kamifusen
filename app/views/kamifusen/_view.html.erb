@@ -2,6 +2,7 @@
 # image_tag options
 options ||= {}
 alt = options[:alt]
+async = options[:sync] || true
 klass = options[:class]
 picture_class = options[:picture_class]
 width = options[:width]
@@ -33,7 +34,8 @@ if  source&.metadata &&
   width = width.round
   height = height.round
 end
-parameters = " loading=\"lazy\" decoding=\"async\""
+parameters = " "
+parameters = " loading=\"lazy\" decoding=\"async\"" if async
 parameters += " alt=\"#{ alt }\"" if alt
 parameters += " width=\"#{ width }\"" if width
 parameters += " height=\"#{ height }\"" if height

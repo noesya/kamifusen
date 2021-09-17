@@ -4,6 +4,8 @@ options ||= {}
 alt = options[:alt]
 async = options.has_key?(:async)  ? options[:async]
                                   : true
+active_storage_direct_url = options.has_key?(:active_storage_direct_url)  ? options[:active_storage_direct_url]
+                                                                          : false
 klass = options[:class]
 picture_class = options[:picture_class]
 width = options[:width]
@@ -41,12 +43,27 @@ parameters += " alt=\"#{ alt }\"" if alt
 parameters += " width=\"#{ width }\"" if width
 parameters += " height=\"#{ height }\"" if height
 parameters += " class=\"#{ klass }\"" if klass
+
+def kamifusen_process(variant, active_storage_direct_url)
+  if active_storage_direct_url
+    begin
+      # Pour générer la processed url, il faut savoir où sont stockées les images
+      # https://discuss.rubyonrails.org/t/define-host-so-absolute-urls-work-in-development-and-test/75085
+      # https://stackoverflow.com/questions/60425407/uriinvalidurierror-bad-uriis-not-uri-nil-active-storage-service-url
+      # Not compatible with Disk storage, will return nil
+      url = variant.processed.url
+    rescue
+    end
+  end
+  url = url_for(variant) if url.nil?
+  url
+end
 %>
 <% if source.variable? %>
   <%#= "#{image_width} x #{image_height}, #{image_ratio} ratio => #{width} x #{height}<br>".html_safe %>
   <%
   # kamifusen settings
-  sizes = [320, 576, 640, 768, 992, 1152, 1200, 1400, 1536, 1984, 2400]
+  sizes = [360, 375, 414, 576, 640, 750, 768, 828, 992, 1152, 1200, 1366, 1400, 1536, 1920, 1984, 2400]
   quality = 80
   # Computing
   if width
@@ -59,13 +76,16 @@ parameters += " class=\"#{ klass }\"" if klass
   default_width = width_retina if width_retina && width_retina > default_width
   if Kamifusen.with_webp
     srcset_webp = sizes.map { |size|
-      "#{ url_for source.variant(resize: "#{size}>", format: :webp, quality: quality) } #{ size }w"
+      variant = source.variant(resize: "#{size}>", format: :webp, quality: quality)
+      "#{ kamifusen_process(variant, active_storage_direct_url) } #{ size }w"
     }.join(', ')
   end
   srcset_default = sizes.map { |size|
-    "#{ url_for source.variant(resize: "#{size}>", quality: quality) } #{ size }w"
+    variant = source.variant(resize: "#{size}>", quality: quality)
+    "#{ kamifusen_process(variant, active_storage_direct_url) } #{ size }w"
   }.join(', ')
-  default = url_for source.variant(resize: "#{default_width}>", quality: quality)
+  variant = source.variant(resize: "#{default_width}>", quality: quality)
+  default = kamifusen_process(variant, active_storage_direct_url)
   %>
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>

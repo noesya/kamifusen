@@ -12,7 +12,27 @@ width = options[:width]
 height = options[:height]
 
 # kamifusen settings
-sizes = [360, 375, 414, 576, 640, 750, 768, 828, 992, 1152, 1200, 1366, 1400, 1536, 1920, 1984, 2400]
+sizes = [
+  360, # Old android
+  375, # Old iPhone
+  414, # iPhone 6/7/8 plus, non retina
+  576,
+  640,
+  750,
+  768,
+  828,
+  992,
+  1152,
+  1200, # Desktop
+  1242, # iPhone 6/7/8 plus, retina x3
+  1366, # Desktop
+  1400,
+  1536, # Desktop
+  1920,
+  1984,
+  2400,
+  3072 # Desktop macbook pro, retina x2
+]
 quality = 80
 
 if  source&.metadata &&

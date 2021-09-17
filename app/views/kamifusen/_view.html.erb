@@ -10,6 +10,11 @@ klass = options[:class]
 picture_class = options[:picture_class]
 width = options[:width]
 height = options[:height]
+
+# kamifusen settings
+sizes = [360, 375, 414, 576, 640, 750, 768, 828, 992, 1152, 1200, 1366, 1400, 1536, 1920, 1984, 2400]
+quality = 80
+
 if  source&.metadata &&
     source.metadata['analyzed'] &&
     source.metadata.has_key?('width') &&
@@ -19,8 +24,8 @@ if  source&.metadata &&
   image_ratio = 1.0 * image_width / image_height
   if width.nil? && height.nil?
     # Prendre width et height réelles de l'image
-    width = image_width
-    height = image_height
+    width = [image_width, sizes.last].min
+    height = width * image_ratio
   elsif width.nil?
     # Calculer la height sur ratio
     width = height * image_ratio
@@ -62,9 +67,6 @@ end
 <% if source.variable? %>
   <%#= "#{image_width} x #{image_height}, #{image_ratio} ratio => #{width} x #{height}<br>".html_safe %>
   <%
-  # kamifusen settings
-  sizes = [360, 375, 414, 576, 640, 750, 768, 828, 992, 1152, 1200, 1366, 1400, 1536, 1920, 1984, 2400]
-  quality = 80
   # Computing
   if width
     width_retina = width * 2

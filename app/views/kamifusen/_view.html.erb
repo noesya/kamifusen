@@ -1,18 +1,15 @@
 <%
-# image_tag options
 options ||= {}
 alt = options[:alt]
-async = options.has_key?(:async)  ? options[:async]
-                                  : true
-active_storage_direct_url = options.has_key?(:active_storage_direct_url)  ? options[:active_storage_direct_url]
-                                                                          : false
+async = options.has_key?(:async) ? options[:async] : true
+active_storage_direct_url = options.has_key?(:active_storage_direct_url) ? options[:active_storage_direct_url] : false
 klass = options[:class]
 picture_class = options[:picture_class]
 width = options[:width]
 height = options[:height]
 
-sizes = Kamifusen.sizes
-quality = Kamifusen.quality
+sizes = Kamifusen.sizes.dup
+quality = Kamifusen.quality.dup
 
 if  source&.metadata &&
     source.metadata['analyzed'] &&
@@ -22,31 +19,30 @@ if  source&.metadata &&
   image_height = source.metadata['height']
   image_ratio = 1.0 * image_width / image_height
   if width.nil? && height.nil?
-    # Prendre width et height réelles de l'image
+    # Image real dimensions
     width = [image_width, sizes.last].min
     height = width * image_ratio
   elsif width.nil?
-    # Calculer la height sur ratio
+    # Calculated width, preserving the aspect ratio
     width = height * image_ratio
   elsif height.nil?
-    # Calcule la width sur ratio
+    # Calculated height, preserving the aspect ratio
     height = width / image_ratio
   else
-    # Width et height sont explicites,
-    # si le ratio demandé n'est pas celui de l'image,
-    # Redéfinir la height
+    # Explicit dimensions. We redefine the height if aspect ratio is not preserved.
     width = [image_width, width].min
     height = width / image_ratio
   end
   width = width.round
   height = height.round
 end
+
 parameters = ""
 parameters += " loading=\"lazy\" decoding=\"async\"" if async
-parameters += " alt=\"#{ alt }\"" if alt
-parameters += " width=\"#{ width }\"" if width
-parameters += " height=\"#{ height }\"" if height
-parameters += " class=\"#{ klass }\"" if klass
+parameters += " alt=\"#{alt}\"" if alt
+parameters += " width=\"#{width}\"" if width
+parameters += " height=\"#{height}\"" if height
+parameters += " class=\"#{klass}\"" if klass
 
 def kamifusen_process(variant, active_storage_direct_url)
   if active_storage_direct_url
@@ -54,17 +50,16 @@ def kamifusen_process(variant, active_storage_direct_url)
       # Pour générer la processed url, il faut savoir où sont stockées les images
       # https://discuss.rubyonrails.org/t/define-host-so-absolute-urls-work-in-development-and-test/75085
       # https://stackoverflow.com/questions/60425407/uriinvalidurierror-bad-uriis-not-uri-nil-active-storage-service-url
-      # Not compatible with Disk storage, will return nil
       url = variant.processed.url
     rescue
+      # Not compatible with DiskService, which returns a URI::InvalidURIError
     end
   end
-  url = url_for(variant) if url.nil?
+  url ||= url_for(variant)
   url
 end
 %>
 <% if source.variable? %>
-  <%#= "#{image_width} x #{image_height}, #{image_ratio} ratio => #{width} x #{height}<br>".html_safe %>
   <%
   # Computing
   if width

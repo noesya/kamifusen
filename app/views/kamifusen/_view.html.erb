@@ -8,19 +8,18 @@ picture_class = options[:picture_class]
 width = options[:width]
 height = options[:height]
 
-sizes = Kamifusen.sizes.dup
+variant_sizes = Kamifusen.sizes.dup
 quality = Kamifusen.quality.dup
 
-if  source&.metadata &&
-    source.metadata['analyzed'] &&
-    source.metadata.has_key?('width') &&
-    source.metadata.has_key?('height')
+sizes = options[:sizes] || {}
+
+if source&.analyzed? && source.metadata.has_key?('width') && source.metadata.has_key?('height')
   image_width = source.metadata['width']
   image_height = source.metadata['height']
   image_ratio = 1.0 * image_width / image_height
   if width.nil? && height.nil?
     # Image real dimensions
-    width = [image_width, sizes.last].min
+    width = [image_width, variant_sizes.last].min
     height = width * image_ratio
   elsif width.nil?
     # Calculated width, preserving the aspect ratio
@@ -64,30 +63,36 @@ end
   # Computing
   if width
     width_retina = width * 2
-    sizes.reject! { |size| size > width_retina }
-    sizes << width_retina
-    sizes.uniq!
+    variant_sizes.reject! { |size| size > width_retina }
+    variant_sizes << width_retina
+    variant_sizes.uniq!
   end
-  default_width = sizes.max
+  default_width = variant_sizes.max
   default_width = width_retina if width_retina && width_retina > default_width
   if Kamifusen.with_webp
-    srcset_webp = sizes.map { |size|
+    srcset_webp = variant_sizes.map { |size|
       variant = source.variant(resize: "#{size}>", format: :webp, quality: quality)
-      "#{ kamifusen_process(variant, active_storage_direct_url) } #{ size }w"
+      "#{ kamifusen_process(variant, active_storage_direct_url) } #{size}w"
     }.join(', ')
   end
-  srcset_default = sizes.map { |size|
+  srcset_default = variant_sizes.map { |size|
     variant = source.variant(resize: "#{size}>", quality: quality)
-    "#{ kamifusen_process(variant, active_storage_direct_url) } #{ size }w"
+    "#{ kamifusen_process(variant, active_storage_direct_url) } #{size}w"
   }.join(', ')
   variant = source.variant(resize: "#{default_width}>", quality: quality)
   default = kamifusen_process(variant, active_storage_direct_url)
   %>
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>
-      <source srcset="<%= srcset_webp %>" type="image/webp">
+      <source srcset="<%= srcset_webp %>"
+              type="image/webp"
+              <%= " sizes=\"#{sizes.map { |key, value| [key, value].join(' ') }.join(', ')}\"".html_safe unless sizes.empty? %>>
     <% end %>
-    <img src="<%= default %>" srcset="<%= srcset_default %>" type="<%= source.content_type %>"<%= raw parameters %>>
+    <img  src="<%= default %>"
+          srcset="<%= srcset_default %>"
+          type="<%= source.content_type %>"
+          <%= " sizes=\"#{sizes.map { |key, value| [key, value].join(' ') }.join(', ')}\"".html_safe unless sizes.empty? %>
+          <%= raw parameters %>>
   </picture>
 <% else %>
   <picture>

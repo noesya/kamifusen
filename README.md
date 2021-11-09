@@ -32,6 +32,13 @@ If you want to disable webp, in config/initializers/kamifusen.rb:
 Kamifusen.with_webp = false
 ```
 
+If you render kamifusen tags inside a sanitized text, please make sure you allow these tags and attributes in `config/application.yml`:
+
+```ruby
+config.action_view.sanitized_allowed_tags = ['picture', 'source', 'img']
+config.action_view.sanitized_allowed_attributes = ['src', 'type', 'srcset', 'width', 'height', 'alt', 'sizes', 'loading', 'decoding']
+```
+
 ## Usage
 
 Simply use `kamifusen_tag` instead of `image_tag` in your rails views.## What's the problem?

@@ -12,6 +12,7 @@ variant_sizes = Kamifusen.sizes.dup
 quality = Kamifusen.quality.dup
 
 sizes = options[:sizes] || {}
+sizes_value = sizes.map { |key, value| [key, value].join(' ').strip }.join(', ')
 
 if source&.analyzed? && source.metadata.has_key?('width') && source.metadata.has_key?('height')
   image_width = source.metadata['width']
@@ -85,11 +86,11 @@ end
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>
       <source srcset="<%= srcset_webp %>"
-              <%= " sizes=\"#{sizes.map { |key, value| [key, value].join(' ') }.join(', ')}\"".html_safe unless sizes.empty? %>
+              <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
               type="image/webp">
     <% end %>
     <source srcset="<%= srcset_default %>"
-            <%= " sizes=\"#{sizes.map { |key, value| [key, value].join(' ') }.join(', ')}\"".html_safe unless sizes.empty? %>
+            <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
             type="<%= source.content_type %>">
     <img src="<%= default %>" <%= raw parameters %>>
   </picture>

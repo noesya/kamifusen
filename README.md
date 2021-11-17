@@ -110,7 +110,7 @@ Webp and AVIF are more efficient formats than jpg and png. They allow better com
 
 ### The final situation
 
-https://sebousan.github.io/kamifusen/
+https://noesya.github.io/kamifusen/
 
 The new helper is:
 

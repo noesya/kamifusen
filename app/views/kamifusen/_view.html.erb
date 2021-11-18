@@ -21,7 +21,7 @@ if source&.analyzed? && source.metadata.has_key?('width') && source.metadata.has
   if width.nil? && height.nil?
     # Image real dimensions
     width = [image_width, variant_sizes.last].min
-    height = width * image_ratio
+    height = width / image_ratio
   elsif width.nil?
     # Calculated width, preserving the aspect ratio
     width = height * image_ratio

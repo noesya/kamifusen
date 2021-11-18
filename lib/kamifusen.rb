@@ -37,7 +37,7 @@ module Kamifusen
   ]
 
   mattr_accessor :quality
-  @@quality = 80
+  @@quality = 75
 
   class Engine < ::Rails::Engine
   end

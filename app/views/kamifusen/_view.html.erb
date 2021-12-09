@@ -1,6 +1,8 @@
 <%
 options ||= {}
+title = options[:title]
 alt = options[:alt]
+data = options[:data]
 async = options.has_key?(:async) ? options[:async] : true
 active_storage_direct_url = options.has_key?(:active_storage_direct_url) ? options[:active_storage_direct_url] : false
 klass = options[:class]
@@ -40,9 +42,16 @@ end
 parameters = ""
 parameters += " loading=\"lazy\" decoding=\"async\"" if async
 parameters += " alt=\"#{alt}\"" if alt
+parameters += " title=\"#{title}\"" if title
 parameters += " width=\"#{width}\"" if width
 parameters += " height=\"#{height}\"" if height
 parameters += " class=\"#{klass}\"" if klass
+if data
+  data.each do |entry|
+    parameters += " data-#{entry.first.to_s}=\"#{entry.last}\""
+  end
+end
+
 
 def kamifusen_process(variant, active_storage_direct_url)
   if active_storage_direct_url

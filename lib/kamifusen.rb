@@ -11,6 +11,9 @@ module Kamifusen
 
   mattr_accessor :sizes
   @@sizes = [
+    100, # small formats
+    200, # small formats
+    300, # small formats
     # 360, # Old android
     375, # Old iPhone
     # 414, # ?

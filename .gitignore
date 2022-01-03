@@ -2,10 +2,7 @@
 /.yardoc
 /_yardoc/
 /coverage/
-/doc/
-/pkg/
 /spec/reports/
-/tmp/
 /.bundle/
 /doc/
 /log/*.log

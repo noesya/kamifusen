@@ -78,14 +78,14 @@ end
   %>
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>
-      <source srcset="<%= srcset_webp %>"
+      <source srcset="<%= raw srcset_webp %>"
               <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
               type="image/webp">
     <% end %>
-    <source srcset="<%= srcset_default %>"
+    <source srcset="<%= raw srcset_default %>"
             <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
             type="<%= source.content_type %>">
-    <img src="<%= default %>" <%= raw parameters %>>
+    <img src="<%= raw default %>" <%= raw parameters %>>
   </picture>
 <% else %>
   <picture>

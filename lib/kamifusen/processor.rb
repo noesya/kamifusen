@@ -17,14 +17,14 @@ module Kamifusen
     def keycdn_url
       url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
       transformations = variant.variation.transformations
-      url += "&format=#{transformations[:format]}" if transformations.has_key? :format
-      url += "&quality=#{transformations[:quality]}" if transformations.has_key? :quality
+      url += "format=#{transformations[:format]}&" if transformations.has_key? :format
+      url += "quality=#{transformations[:quality]}&" if transformations.has_key? :quality
       if transformations.has_key? :resize
         resize = transformations[:resize]
         # 100>
         if '>'.in? resize
           width = resize.split('>').first.to_i
-          url += "&width=#{width}"
+          url += "width=#{width}&"
         end
       end
       url

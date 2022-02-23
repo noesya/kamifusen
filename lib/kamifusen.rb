@@ -3,11 +3,23 @@
 require "kamifusen/version"
 require "kamifusen/railtie"
 require "kamifusen/view_helper"
+require "kamifusen/processor"
 
 module Kamifusen
 
+  def self.config
+    yield self
+  end
+
+  def self.process(variant, active_storage_direct_url)
+    Processor.new(variant, active_storage_direct_url).url
+  end
+
   mattr_accessor :with_webp
   @@with_webp = true
+
+  mattr_accessor :keycdn
+  @@keycdn = nil
 
   mattr_accessor :sizes
   @@sizes = [

@@ -51,22 +51,6 @@ if data
     parameters += " data-#{entry.first.to_s}=\"#{entry.last}\""
   end
 end
-
-
-def kamifusen_process(variant, active_storage_direct_url)
-  if active_storage_direct_url
-    begin
-      # Pour générer la processed url, il faut savoir où sont stockées les images
-      # https://discuss.rubyonrails.org/t/define-host-so-absolute-urls-work-in-development-and-test/75085
-      # https://stackoverflow.com/questions/60425407/uriinvalidurierror-bad-uriis-not-uri-nil-active-storage-service-url
-      url = variant.processed.url
-    rescue
-      # Not compatible with DiskService, which returns a URI::InvalidURIError
-    end
-  end
-  url ||= url_for(variant)
-  url
-end
 %>
 <% if source.variable? %>
   <%
@@ -82,15 +66,15 @@ end
   if Kamifusen.with_webp
     srcset_webp = variant_sizes.map { |size|
       variant = source.variant(resize: "#{size}>", format: :webp, quality: quality)
-      "#{ kamifusen_process(variant, active_storage_direct_url) } #{size}w"
+      "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
     }.join(', ')
   end
   srcset_default = variant_sizes.map { |size|
     variant = source.variant(resize: "#{size}>", quality: quality)
-    "#{ kamifusen_process(variant, active_storage_direct_url) } #{size}w"
+    "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
   }.join(', ')
   variant = source.variant(resize: "#{default_width}>", quality: quality)
-  default = kamifusen_process(variant, active_storage_direct_url)
+  default = Kamifusen.process(variant, active_storage_direct_url)
   %>
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>

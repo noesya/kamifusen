@@ -2,7 +2,7 @@ module Kamifusen
   class Processor
     attr_reader :variant, :active_storage_direct_url
 
-    def initialize(variant, active_storage_direct_url)
+    def initialize(variant, active_storage_direct_url = false)
       @variant = variant
       @active_storage_direct_url = active_storage_direct_url
     end

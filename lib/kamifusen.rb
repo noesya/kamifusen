@@ -11,7 +11,7 @@ module Kamifusen
     yield self
   end
 
-  def self.process(variant, active_storage_direct_url)
+  def self.process(variant, active_storage_direct_url = false)
     Processor.new(variant, active_storage_direct_url).url
   end
 

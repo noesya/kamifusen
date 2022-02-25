@@ -78,9 +78,17 @@ end
   %>
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
     <% if Kamifusen.with_webp %>
-      <source srcset="<%= raw srcset_webp %>"
-              <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
-              type="image/webp">
+      <% variant_sizes.reverse.each do |size|
+            variant1 = source.variant(resize: "#{size}>", format: :webp, quality: quality)
+            variant2 = source.variant(resize: "#{size*2}>", format: :webp, quality: (1.0*quality/2).to_i)
+            variant3 = source.variant(resize: "#{size*3}>", format: :webp, quality: (1.0*quality/3).to_i)
+            %>
+        <source media="(min-width: <%= size %>px)" type="image/webp" srcset="
+          <%= Kamifusen.process(variant, active_storage_direct_url).html_safe %> 1x,
+          <%= Kamifusen.process(variant2, active_storage_direct_url).html_safe %> 2x,
+          <%= Kamifusen.process(variant3, active_storage_direct_url).html_safe %> 3x"
+          <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>>
+      <% end %>
     <% end %>
     <source srcset="<%= raw srcset_default %>"
             <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>

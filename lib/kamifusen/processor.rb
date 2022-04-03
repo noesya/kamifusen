@@ -14,19 +14,44 @@ module Kamifusen
 
     protected
 
-    def keycdn_url
-      url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
-      transformations = variant.variation.transformations
-      url += "format=#{transformations[:format]}&" if transformations.has_key? :format
-      url += "quality=#{transformations[:quality]}&" if transformations.has_key? :quality
+    def transformations
+      @transformations ||= variant.variation.transformations
+    end
+
+    def get_quality
+      if transformations.has_key? :quality
+        warn "[DEPRECATION] kamifusen: `variant(quality:)` is deprecated. Please use `variant(saver: { quality: })` instead."
+        return transformations[:quality]
+      end
+      transformations.dig(:saver, :quality)
+    end
+
+    def get_resize_width
+      width = nil
       if transformations.has_key? :resize
         resize = transformations[:resize]
-        # 100>
+        # resize: "100>"
         if '>'.in? resize
+          warn "[DEPRECATION] kamifusen: `resize(\"\#{width}>\")` transformation is deprecated. Please use `resize_to_limit(width, nil)` instead."
           width = resize.split('>').first.to_i
-          url += "width=#{width}&"
         end
+      elsif transformations.has_key? :resize_to_limit
+        # resize_to_limit: [100, nil]
+        width = transformations[:resize_to_limit].first.to_i
       end
+      width
+    end
+
+    def keycdn_url
+      url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
+      url += "format=#{transformations[:format]}&" if transformations.has_key? :format
+
+      width = get_resize_width
+      url += "width=#{width}" unless width.nil?
+
+      quality = get_quality
+      url += "quality=#{quality}&" unless quality.nil?
+
       url
     end
 

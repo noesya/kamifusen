@@ -132,6 +132,32 @@ It generates a code like:
 </picture>
 ```
 
+### Parameters
+
+You can set different parameters : 
+
+```
+    class: "img_class",
+    alt: "alt",
+    height: height,
+    width: width,
+    sizes: sizes,
+    active_storage_direct_url: direct_url,
+    async: async
+```
+
+Example of sizes parameter : 
+
+```
+sizes: {
+    '(max-width: 576px)': '315px',
+    '(max-width: 991px)': '210px',
+    '(max-width: 1199px)': '290px',
+    '(max-width: 1439px)': '350px',
+    '(min-width: 1440px)': '420px'
+}
+```
+
 ## References
 
 - https://developer.mozilla.org/fr/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images

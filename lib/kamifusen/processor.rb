@@ -18,49 +18,60 @@ module Kamifusen
       @transformations ||= variant.variation.transformations
     end
 
-    def get_quality
-      if transformations.has_key? :quality
-        warn "[DEPRECATION] kamifusen: `variant(quality:)` is deprecated. Please use `variant(saver: { quality: })` instead."
-        return transformations[:quality]
+    def format
+      unless @format
+        @format = transformations[:format] if transformations.has_key? :format
       end
-      transformations.dig(:saver, :quality)
+      @format
     end
 
-    def get_resize_width
-      width = nil
-      if transformations.has_key? :resize
-        resize = transformations[:resize]
-        # resize: "100>"
-        if '>'.in? resize
-          warn "[DEPRECATION] kamifusen: `resize(\"\#{width}>\")` transformation is deprecated. Please use `resize_to_limit(width, nil)` instead."
-          width = resize.split('>').first.to_i
+    def quality
+      unless @quality
+        if transformations.has_key? :quality
+          warn "[DEPRECATION] kamifusen: `variant(quality:)` is deprecated. Please use `variant(saver: { quality: })` instead."
+          @quality = transformations[:quality]
+        else
+          @quality = transformations.dig(:saver, :quality)
         end
-      elsif transformations.has_key? :resize_to_limit
-        # resize_to_limit: [100, nil]
-        width = transformations[:resize_to_limit].first.to_i
       end
-      width
+      @quality
+    end
+
+    def width
+      unless @width
+        if transformations.has_key? :resize
+          resize = transformations[:resize]
+          # resize: "100>"
+          if '>'.in? resize
+            warn "[DEPRECATION] kamifusen: `resize(\"\#{width}>\")` transformation is deprecated. Please use `resize_to_limit(width, nil)` instead."
+            @width = resize.split('>').first.to_i
+          end
+        elsif transformations.has_key? :resize_to_limit
+          # resize_to_limit: [100, nil]
+          @width = transformations[:resize_to_limit].first.to_i
+        end
+      end
+      @width
     end
 
     def keycdn_url
-      url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
-      url += "format=#{transformations[:format]}&" if transformations.has_key? :format
-
-      width = get_resize_width
-      url += "width=#{width}" unless width.nil?
-
-      quality = get_quality
-      url += "quality=#{quality}&" unless quality.nil?
-
-      url
+      unless @keycdn_url
+        @keycdn_url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
+        @keycdn_url += "format=#{format}&" unless format.nil?
+        @keycdn_url += "width=#{width}&" unless width.nil?
+        @keycdn_url += "quality=#{quality}&" unless quality.nil?
+      end
+      @keycdn_url
     end
 
     def active_storage_url
-      url = nil
-      url = processed_url if active_storage_direct_url
-      url ||= smart_url
-      url ||= explicit_url
-      url
+      unless @active_storage_url
+        @active_storage_url = nil
+        @active_storage_url = processed_url if active_storage_direct_url
+        @active_storage_url ||= smart_url
+        @active_storage_url ||= explicit_url
+      end
+      @active_storage_url
     end
 
     def processed_url

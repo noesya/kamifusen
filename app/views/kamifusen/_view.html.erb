@@ -65,15 +65,15 @@ end
   default_width = width_retina if width_retina && width_retina > default_width
   if Kamifusen.with_webp
     srcset_webp = variant_sizes.map { |size|
-      variant = source.variant(resize: "#{size}>", format: :webp, quality: quality)
+      variant = source.variant(resize_to_limit: [size, nil], format: :webp, saver: { quality: quality })
       "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
     }.join(', ')
   end
   srcset_default = variant_sizes.map { |size|
-    variant = source.variant(resize: "#{size}>", quality: quality)
+    variant = source.variant(resize_to_limit: [size, nil], saver: { quality: quality })
     "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
   }.join(', ')
-  variant = source.variant(resize: "#{default_width}>", quality: quality)
+  variant = source.variant(resize_to_limit: [default_width, nil], saver: { quality: quality })
   default = Kamifusen.process(variant, active_storage_direct_url)
   %>
   <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>

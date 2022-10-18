@@ -6,6 +6,8 @@ Images in Ruby on Rails, as lightweight as possible!
 
 ## Installation
 
+Active Storage must be properly installed, with a solution set for the background jobs (we use Delayed Job).
+
 Add this line to your application's Gemfile:
 
 ```ruby

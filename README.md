@@ -2,7 +2,7 @@
 
 Images in Ruby on Rails, as lightweight as possible!
 
-![Kamifūsen in Yamagata](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg/1024px-%E4%B8%AD%E6%B4%A5%E5%B7%9D%E9%9B%AA%E3%81%BE%E3%81%A4%E3%82%8A.jpg)
+![Kamifūsen in Yamagata](image.jpg?raw=true)
 
 ## Installation
 

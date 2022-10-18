@@ -7,6 +7,8 @@ Images in Ruby on Rails, as lightweight as possible!
 ## Installation
 
 Active Storage must be properly installed, with a solution set for the background jobs (we use Delayed Job).
+- https://edgeguides.rubyonrails.org/active_storage_overview.html
+- https://edgeguides.rubyonrails.org/active_job_basics.html#job-execution
 
 Add this line to your application's Gemfile:
 

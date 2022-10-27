@@ -133,7 +133,7 @@ It generates a code like:
   <source srcset="image-400w.webp, image-800w.webp 2x"  type="image/webp"  media="(min-width: 400px)">
   <source srcset="image-800w.jpg, image-1600w.jpg 2x"   type="image/jpg"   media="(min-width: 800px)">
   <source srcset="image-400w.jpg, image-800w.jpg 2x"    type="image/jpg"   media="(min-width: 400px)">
-  <img src="image-800.jpg" alt="A nice image" srcset="image-800.jpg, image-1600.jpg 2x">
+  <img src="image-800.jpg" alt="A nice image" srcset="image-800.jpg, image-1600.jpg 2x" loading="lazy">
 </picture>
 ```
 

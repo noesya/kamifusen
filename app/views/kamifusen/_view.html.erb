@@ -1,94 +1,104 @@
 <%
-options ||= {}
-title = options[:title]
-alt = options[:alt]
-data = options[:data]
-async = options.has_key?(:async) ? options[:async] : true
-active_storage_direct_url = options.has_key?(:active_storage_direct_url) ? options[:active_storage_direct_url] : false
-klass = options[:class]
-picture_class = options[:picture_class]
-width = options[:width]
-height = options[:height]
-
-variant_sizes = Kamifusen.sizes.dup
-quality = Kamifusen.quality.dup
-
-sizes = options[:sizes] || {}
-sizes_value = sizes.map { |key, value| [key, value].join(' ').strip }.join(', ')
-
-if source&.analyzed? && source.metadata.has_key?('width') && source.metadata.has_key?('height')
-  image_width = source.metadata['width']
-  image_height = source.metadata['height']
-  image_ratio = 1.0 * image_width / image_height
-  if width.nil? && height.nil?
-    # Image real dimensions
-    width = [image_width, variant_sizes.last].min
-    height = width / image_ratio
-  elsif width.nil?
-    # Calculated width, preserving the aspect ratio
-    width = height * image_ratio
-  elsif height.nil?
-    # Calculated height, preserving the aspect ratio
-    height = width / image_ratio
-  else
-    # Explicit dimensions. We redefine the height if aspect ratio is not preserved.
-    width = [image_width, width].min
-    height = width / image_ratio
-  end
-  width = width.round
-  height = height.round
-end
-
-parameters = ""
-parameters += " loading=\"lazy\" decoding=\"async\"" if async
-parameters += " alt=\"#{alt}\"" if alt
-parameters += " title=\"#{title}\"" if title
-parameters += " width=\"#{width}\"" if width
-parameters += " height=\"#{height}\"" if height
-parameters += " class=\"#{klass}\"" if klass
-if data
-  data.each do |entry|
-    parameters += " data-#{entry.first.to_s}=\"#{entry.last}\""
-  end
+source_is_set = false
+if source.is_a? ActiveStorage::Blob
+  source_is_set = true
+elsif source.respond_to? :attached
+  source_is_set = source.attached?
 end
 %>
-<% if source.variable? %>
-  <%
-  # Computing
-  if width
-    width_retina = width * 2
-    variant_sizes.reject! { |size| size > width_retina }
-    variant_sizes << width_retina
-    variant_sizes.uniq!
-  end
-  default_width = variant_sizes.max
-  default_width = width_retina if width_retina && width_retina > default_width
-  if Kamifusen.with_webp
-    srcset_webp = variant_sizes.map { |size|
-      variant = source.variant(resize: "#{size}>", format: :webp, quality: quality)
-      "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
-    }.join(', ')
-  end
-  srcset_default = variant_sizes.map { |size|
-    variant = source.variant(resize: "#{size}>", quality: quality)
-    "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
-  }.join(', ')
-  variant = source.variant(resize: "#{default_width}>", quality: quality)
-  default = Kamifusen.process(variant, active_storage_direct_url)
-  %>
-  <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
-    <% if Kamifusen.with_webp %>
-      <source srcset="<%= raw srcset_webp %>"
-              <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
-              type="image/webp">
+<% 
+if source_is_set 
+  cached = options.dig(:cached)
+  cache_if(cached, [source, options]) do
+    options ||= {}
+    title = options[:title]
+    alt = options[:alt]
+    data = options[:data]
+    async = options.has_key?(:async) ? options[:async] : true
+    active_storage_direct_url = options.has_key?(:active_storage_direct_url) ? options[:active_storage_direct_url] : false
+    klass = options[:class]
+    picture_class = options[:picture_class]
+    width = options[:width]
+    height = options[:height]
+    variant_sizes = Kamifusen.sizes.dup
+    quality = Kamifusen.quality.dup
+
+    sizes = options[:sizes] || {}
+    sizes_value = sizes.map { |key, value| [key, value].join(' ').strip }.join(', ')
+
+    if source&.analyzed? && source.metadata.has_key?('width') && source.metadata.has_key?('height')
+      image_width = source.metadata['width']
+      image_height = source.metadata['height']
+      image_ratio = 1.0 * image_width / image_height
+      if width.nil? && height.nil?
+        # Image real dimensions
+        width = [image_width, variant_sizes.last].min
+        height = width / image_ratio
+      elsif width.nil?
+        # Calculated width, preserving the aspect ratio
+        width = height * image_ratio
+      elsif height.nil?
+        # Calculated height, preserving the aspect ratio
+        height = width / image_ratio
+      else
+        # Explicit dimensions. We redefine the height if aspect ratio is not preserved.
+        width = [image_width, width].min
+        height = width / image_ratio
+      end
+      width = width.round
+      height = height.round
+    end
+
+    parameters = ""
+    parameters += " loading=\"lazy\" decoding=\"async\"" if async
+    parameters += " alt=\"#{alt}\"" if alt
+    parameters += " title=\"#{title}\"" if title
+    parameters += " width=\"#{width}\"" if width
+    parameters += " height=\"#{height}\"" if height
+    parameters += " class=\"#{klass}\"" if klass
+    if data
+      data.each do |entry|
+        parameters += " data-#{entry.first.to_s}=\"#{entry.last}\""
+      end
+    end
+    if source.variable?
+      # Computing
+      if width
+        width_retina = width * 2
+        variant_sizes.reject! { |size| size > width_retina }
+        variant_sizes << width_retina
+        variant_sizes.uniq!
+      end
+      default_width = variant_sizes.max
+      default_width = width_retina if width_retina && width_retina > default_width
+      if Kamifusen.with_webp
+        srcset_webp = variant_sizes.map { |size|
+          variant = source.variant(resize: "#{size}>", format: :webp, quality: quality)
+          "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
+        }.join(', ')
+      end
+      srcset_default = variant_sizes.map { |size|
+        variant = source.variant(resize: "#{size}>", quality: quality)
+        "#{ Kamifusen.process(variant, active_storage_direct_url) } #{size}w"
+      }.join(', ')
+      variant = source.variant(resize: "#{default_width}>", quality: quality)
+      default = Kamifusen.process(variant, active_storage_direct_url)
+      %>
+      <picture<%= " class=\"#{picture_class}\"".html_safe unless picture_class.blank? %>>
+        <% if Kamifusen.with_webp %>
+          <source srcset="<%= raw srcset_webp %>"
+                  <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
+                  type="image/webp">
+        <% end %>
+        <source srcset="<%= raw srcset_default %>"
+                <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
+                type="<%= source.content_type %>">
+        <img src="<%= raw default %>" <%= raw parameters %>>
+      </picture>
+    <% else %>
+      <picture>
+        <img src="<%= url_for source %>" type="<%= source.content_type %>"<%= raw parameters %>>
+      </picture>
     <% end %>
-    <source srcset="<%= raw srcset_default %>"
-            <%= " sizes=\"#{sizes_value}\"".html_safe unless sizes.empty? %>
-            type="<%= source.content_type %>">
-    <img src="<%= raw default %>" <%= raw parameters %>>
-  </picture>
-<% else %>
-  <picture>
-    <img src="<%= url_for source %>" type="<%= source.content_type %>"<%= raw parameters %>>
-  </picture>
+  <% end %>
 <% end %>

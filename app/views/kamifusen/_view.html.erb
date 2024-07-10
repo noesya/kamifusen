@@ -2,15 +2,15 @@
 source_is_set = false
 if source.is_a? ActiveStorage::Blob
   source_is_set = true
-elsif source.respond_to? :attached
+elsif source.respond_to?(:attached?)
   source_is_set = source.attached?
 end
 %>
 <% 
 if source_is_set 
+  options ||= {}
   cached = options.dig(:cached)
   cache_if(cached, [source, options]) do
-    options ||= {}
     title = options[:title]
     alt = options[:alt]
     data = options[:data]

@@ -25,6 +25,10 @@ Or install it yourself as:
 
     $ gem install kamifusen
 
+## Usage
+
+Simply use `kamifusen_tag` instead of `image_tag` in your rails views.
+
 In the views, use (where object is an active record model, and image is an active storage attachment):
 
 ```erb
@@ -44,9 +48,12 @@ config.action_view.sanitized_allowed_tags = ['picture', 'source', 'img']
 config.action_view.sanitized_allowed_attributes = ['src', 'type', 'srcset', 'width', 'height', 'alt', 'sizes', 'loading', 'decoding']
 ```
 
-## Usage
+You can use the cache for the fragment, by setting
+```erb
+<%= kamifusen_tag object.image, alt: 'A nice image', cached: true %>
+```
 
-Simply use `kamifusen_tag` instead of `image_tag` in your rails views.## What's the problem?
+## What's the problem?
 
 ### The initial situation
 

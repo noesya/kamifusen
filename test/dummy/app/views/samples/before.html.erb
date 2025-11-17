@@ -1,5 +1,5 @@
-<h2>Before</h2>
-<%= link_to 'After', after_path %>
+<% content_for :title, "Before" %>
+
 <% @samples.each do |sample| %>
   <div>
     <%= image_tag sample.image if sample.image.attached? %>

@@ -31,3 +31,11 @@
 
 en:
   hello: "Hello world"
+  simple_form:
+    error_notification:
+      default_message: "Please review the problems below:"
+    "no": 'No'
+    required:
+      mark: '*'
+      text: 'required'
+    "yes": 'Yes'

@@ -3,13 +3,71 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kamifūsen</title>
+    <title><%= content_for?(:title) ? "#{yield(:title)} - Kamifūsen" : "Kamifūsen" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
   <body>
-    <h1><%= link_to 'Kamifūsen', root_path %></h1>
-    <%= yield %>
+    <header>
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+          <%= link_to 'Kamifūsen', root_path, class: "navbar-brand" %>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <%= link_to "Samples", samples_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Before", before_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "After", after_path, class: "nav-link" %>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Debug
+                </a>
+                <ul class="dropdown-menu p-2 dropdown-menu-end">
+                  <p class="small mb-0">
+                    Processor: <%= ActiveStorage.variant_processor.to_s.humanize %><br>
+                    CLI version: <%= variant_processor_version %><br>
+                    KeyCDN: <%= Kamifusen.keycdn.present? ? 'enabled' : 'disabled' %><br>
+                    WebP: <%= Kamifusen.with_webp ? 'enabled' : 'disabled' %>
+                  </p>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="toasts-container" style="position: fixed; top: 20px; right: 20px; z-index: 100000;">
+      <% unless notice.blank? %>
+        <div class="js-notyf-notice d-none">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% unless alert.blank? %>
+        <div class="js-notyf-alert d-none">
+          <%= alert %>
+        </div>
+      <% end %>
+    </div>
+
+    <main class="container-fluid mt-3">
+      <% if content_for?(:title) %>
+        <h1 class="mb-2"><%= yield(:title) %></h1>
+      <% end %>
+
+      <%= yield %>
+    </main>
+    <%= javascript_include_tag "application" %>
   </body>
 </html>

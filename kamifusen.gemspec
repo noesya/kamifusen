@@ -29,6 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails"
   spec.add_dependency "image_processing"
 
-  spec.add_development_dependency "listen"
   spec.add_development_dependency "sqlite3"
 end

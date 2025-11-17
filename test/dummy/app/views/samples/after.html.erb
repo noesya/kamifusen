@@ -1,5 +1,5 @@
-<h2>After</h2>
-<%= link_to 'Before', before_path %>
+<% content_for :title, "After" %>
+
 <% @samples.each do |sample| %>
   <% if sample.image.attached? %>
     <article>

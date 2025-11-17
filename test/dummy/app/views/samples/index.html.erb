@@ -1,5 +1,8 @@
-<%= link_to 'Before', before_path %> | <%= link_to 'After', after_path %>
-<table>
+<% content_for :title, "Samples" %>
+
+<%= link_to 'New Sample', new_sample_path, class: "btn btn-primary" %>
+
+<table class="table">
   <thead>
     <tr>
       <td>Image</td>
@@ -9,15 +12,20 @@
   <tbody>
     <% @samples.each do |sample| %>
       <tr>
-        <td><%= image_tag sample.image, width: 200 if sample.image.attached? %></td>
         <td>
-          <%= link_to 'Show', sample %>
-          <%= link_to 'Edit', edit_sample_path(sample) %>
-          <%= link_to 'Destroy', sample, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% if sample.image.attached? %>
+            <%= link_to sample do %>
+              <%= image_tag sample.image, width: 200 %>
+            <% end %>
+          <% else %>
+            <%= link_to "Sample ##{sample.id}", sample %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_sample_path(sample), class: "btn btn-sm btn-warning" %>
+          <%= link_to 'Destroy', sample, class: "btn btn-sm btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'New Sample', new_sample_path %>

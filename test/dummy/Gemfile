@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Specify your gem's dependencies in kamifusen.gemspec
+
+gem "activestorage-scaleway-service"
+gem "aws-sdk-s3"
+gem "bootstrap"
+gem "bootstrap5-kaminari-views"
+gem "byebug"
+gem "dotenv-rails"
+gem "image_processing"
+gem "kamifusen", path: "../../"
+gem "kaminari"
+gem "listen"
+gem "openssl"
+gem "puma"
+gem "sassc-rails"
+gem "simple_form"
+gem "sprockets-rails"
+gem "sqlite3"

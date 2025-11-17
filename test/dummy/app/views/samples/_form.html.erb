@@ -1,19 +1,14 @@
-<%= form_with(model: sample) do |form| %>
-  <% if sample.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(sample.errors.count, "error") %> prohibited this sample from being saved:</h2>
+<%= simple_form_for(sample) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-      <ul>
-        <% sample.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+  <div class="form-inputs row">
+    <div class="col-lg-4">
+      <%= f.input :image, input_html: { accept: ".jpg,.jpeg,.png" } %>
     </div>
-  <% end %>
+  </div>
 
-  <%= form.file_field :image %>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

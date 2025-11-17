@@ -1,4 +1,4 @@
 Kamifusen.config do |config|
-  # config.keycdn = "https://ensembleatabledev-1b4da.kxcdn.com"
-  # config.with_webp = false
+  config.keycdn = ENV["KAMIFUSEN_KEYCDN_HOST"].presence
+  config.with_webp = ENV["KAMIFUSEN_DISABLE_WEBP"] != "true"
 end

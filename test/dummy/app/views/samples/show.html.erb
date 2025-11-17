@@ -1,13 +1,27 @@
-<h2>image_tag</h2>
-<%= image_tag @sample.image if @sample.image.attached? %><br>
+<%= content_for :title, "Sample ##{@sample.id}" %>
 
-<h2>kamifusen_tag</h2>
-<%= kamifusen_tag @sample.image if @sample.image.attached? %><br>
+<% if @sample.image.attached? %>
+  <div class="row mb-4">
+    <div class="col-lg-6">
+      <h2>image_tag</h2>
+      <%= image_tag @sample.image, class: "img-fluid" %><br>
+    </div>
+    <div class="col-lg-6">
+      <h2>kamifusen_tag</h2>
+      <%= kamifusen_tag @sample.image, class: "img-fluid" %><br>
+    </div>
+    <div class="col-lg-6">
+        <h2>kamifusen_tag with 175 width</h2>
+        <%= kamifusen_tag @sample.image, width: 175 %><br>
+    </div>
+    <div class="col-lg-6">
+        <h2>kamifusen_tag with 320 width</h2>
+        <%= kamifusen_tag @sample.image, width: 320 %><br>
+    </div>
+  </div>
+<% end %>
 
-<h2>kamifusen_tag with 175 width</h2>
-<%= kamifusen_tag @sample.image, width: 175 if @sample.image.attached? %><br>
-
-<h2>kamifusen_tag with 320 width</h2>
-<%= kamifusen_tag @sample.image, width: 320 if @sample.image.attached? %><br>
-
-<%= link_to 'Edit', edit_sample_path(@sample) %>
+<div class="actions">
+  <%= link_to 'Edit', edit_sample_path(@sample), class: "btn btn-warning" %>
+  <%= link_to 'Destroy', @sample, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>

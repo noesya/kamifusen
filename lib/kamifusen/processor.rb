@@ -43,8 +43,25 @@ module Kamifusen
       elsif transformations.has_key?(:resize_to_limit)
         # resize_to_limit: [100, nil]
         @width = transformations[:resize_to_limit].first.to_i
+      elsif transformations.has_key?(:resize_to_fill)
+        # resize_to_fill: [400, 600]
+        @width = transformations[:resize_to_fill].first.to_i
       end
       @width
+    end
+
+    def height
+      return @height if defined?(@height)
+      if transformations.has_key?(:resize_to_fill)
+        # resize_to_fill: [400, 600]
+        @height = transformations[:resize_to_fill].second.to_i
+      end
+      @height
+    end
+
+    def crop
+      return @crop if defined?(@crop)
+      @crop = transformations.has_key?(:resize_to_fill)
     end
 
     def keycdn_url
@@ -52,6 +69,7 @@ module Kamifusen
       @keycdn_url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
       @keycdn_url += "format=#{format}&" if format.present?
       @keycdn_url += "width=#{width}&" if width.present?
+      @keycdn_url += "height=#{height}&" if crop && height.present?
       @keycdn_url += "quality=#{quality}&" if quality.present?
       @keycdn_url
     end

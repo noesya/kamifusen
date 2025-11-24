@@ -32,6 +32,24 @@
       <%= kamifusen_tag sample.image,
                         alt: sample.image.filename,
                         active_storage_direct_url: true %>
+      <h3>crop 1000x1000</h3>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename,
+                        width: 1000,
+                        height: 1000,
+                        crop: true %>
+      <h3>crop 200x200</h3>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename,
+                        width: 200,
+                        height: 200,
+                        crop: true %>
+      <h3>crop 200x400</h3>
+      <%= kamifusen_tag sample.image,
+                        alt: sample.image.filename,
+                        width: 200,
+                        height: 400,
+                        crop: true %>
     </article>
   <% end %>
 <% end %>

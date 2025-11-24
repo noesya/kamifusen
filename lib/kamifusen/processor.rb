@@ -14,28 +14,55 @@ module Kamifusen
 
     protected
 
-    def keycdn_url
-      url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
-      transformations = variant.variation.transformations
-      url += "format=#{transformations[:format]}&" if transformations.has_key? :format
-      url += "quality=#{transformations[:quality]}&" if transformations.has_key? :quality
-      if transformations.has_key? :resize
+    def transformations
+      @transformations ||= variant.variation.transformations
+    end
+
+    def format
+      return @format if defined?(@format)
+      @format = transformations.fetch(:format)
+    end
+
+    def quality
+      return @quality if defined?(@quality)
+      @quality =  case ActiveStorage.variant_processor
+                  when :vips
+                    transformations.dig(:saver, :quality)
+                  when :mini_magick
+                    transformations.fetch(:quality)
+                  end
+    end
+
+    def width
+      return @width if defined?(@width)
+      if transformations.has_key?(:resize)
+        Kamifusen.deprecator.warn("The `resize` transformation is deprecated. Please use `resize_to_limit` instead.")
+        # resize: "100>"
         resize = transformations[:resize]
-        # 100>
-        if '>'.in? resize
-          width = resize.split('>').first.to_i
-          url += "width=#{width}&"
-        end
+        @width = resize.split('>').first.to_i if '>'.in?(resize)
+      elsif transformations.has_key?(:resize_to_limit)
+        # resize_to_limit: [100, nil]
+        @width = transformations[:resize_to_limit].first.to_i
       end
-      url
+      @width
+    end
+
+    def keycdn_url
+      return @keycdn_url if defined?(@keycdn_url)
+      @keycdn_url = "#{Kamifusen.keycdn}/#{variant.blob.key}?"
+      @keycdn_url += "format=#{format}&" if format.present?
+      @keycdn_url += "width=#{width}&" if width.present?
+      @keycdn_url += "quality=#{quality}&" if quality.present?
+      @keycdn_url
     end
 
     def active_storage_url
-      url = nil
-      url = processed_url if active_storage_direct_url
-      url ||= smart_url
-      url ||= explicit_url
-      url
+      return @active_storage_url if defined?(@active_storage_url)
+      @active_storage_url = nil
+      @active_storage_url = processed_url if active_storage_direct_url
+      @active_storage_url ||= smart_url
+      @active_storage_url ||= explicit_url
+      @active_storage_url
     end
 
     def processed_url

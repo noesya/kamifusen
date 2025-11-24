@@ -11,6 +11,10 @@ module Kamifusen
     yield self
   end
 
+  def self.deprecator
+    @deprecator ||= ActiveSupport::Deprecation.new("2.0", "Kamifūsen")
+  end
+
   def self.process(variant, active_storage_direct_url = false)
     Processor.new(variant, active_storage_direct_url).url
   end
@@ -55,6 +59,9 @@ module Kamifusen
   @@quality = 70
 
   class Engine < ::Rails::Engine
+    initializer "kamifusen.deprecator", before: :load_environment_config do |app|
+      app.deprecators[:kamifusen] = Kamifusen.deprecator
+    end
   end
 
   class Error < StandardError

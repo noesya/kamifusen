@@ -25,7 +25,7 @@ if source_is_set
       raise ArgumentError, "Cropping needs a width and a height."
     end
     variant_sizes = Kamifusen.sizes.dup
-    quality = Kamifusen.quality.dup
+    quality = options.fetch(:quality, Kamifusen.quality.dup)
     default_variant_options = {}
     case ActiveStorage.variant_processor
     when :vips

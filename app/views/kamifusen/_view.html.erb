@@ -51,7 +51,7 @@ if source_is_set
       elsif height.nil?
         # Calculated height, preserving the aspect ratio
         height = width / image_ratio
-      elsif !options[:crop]
+      elsif !crop
         # Explicit dimensions, no crop. We redefine the height if aspect ratio is not preserved.
         width = [image_width, width].min
         height = width / image_ratio
